@@ -1,0 +1,9 @@
+feature,importance
+location_compatibility,0.54404813
+dense_score,0.1541425
+role_family_match,0.11546175
+skill_coverage,0.09347999
+bm25_score,0.05326019
+seniority_compatibility,0.039607476
+experience_compatibility,0.0
+domain_match,0.0

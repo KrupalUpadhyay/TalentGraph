@@ -1,0 +1,36 @@
+{
+  "train_rows": 11236,
+  "validation_rows": 3274,
+  "train_candidates": 419,
+  "validation_candidates": 109,
+  "features": [
+    "bm25_score",
+    "dense_score",
+    "skill_coverage",
+    "role_family_match",
+    "domain_match",
+    "experience_compatibility",
+    "seniority_compatibility",
+    "location_compatibility"
+  ],
+  "baseline_validation": {
+    "BM25": {
+      "nDCG@10": 0.743578540403217,
+      "hit@10": 0.9908256880733946,
+      "MRR": 0.981651376146789,
+      "candidates": 109
+    },
+    "Dense-MiniLM": {
+      "nDCG@10": 0.7551307007631193,
+      "hit@10": 0.9908256880733946,
+      "MRR": 0.9862385321100917,
+      "candidates": 109
+    }
+  },
+  "XGBoost-LTR": {
+    "nDCG@10": 0.8028422891934333,
+    "hit@10": 0.9908256880733946,
+    "MRR": 0.9862385321100917,
+    "candidates": 109
+  }
+}

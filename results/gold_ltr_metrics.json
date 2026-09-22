@@ -1,0 +1,83 @@
+{
+  "evaluation_type": "sparse judged gold evaluation",
+  "gold_candidates": 78,
+  "gold_judgments": 106,
+  "job_corpus": 2082,
+  "results": [
+    {
+      "method": "BM25",
+      "hit@5": 0.10256410256410256,
+      "hit@10": 0.1282051282051282,
+      "mrr": 0.09294915587750885,
+      "ndcg@5": 0.07903743368422211,
+      "ndcg@10": 0.08255994491734495,
+      "num_candidates": 78,
+      "num_jobs": 2082,
+      "evaluation_type": "sparse judged gold evaluation",
+      "mean_latency_ms": 30.14156282052938,
+      "median_latency_ms": 24.914950000493263,
+      "p95_latency_ms": 63.38468000049033
+    },
+    {
+      "method": "Dense-MiniLM",
+      "hit@5": 0.02564102564102564,
+      "hit@10": 0.038461538461538464,
+      "mrr": 0.01946423687969251,
+      "ndcg@5": 0.011992855403411617,
+      "ndcg@10": 0.016266359676915892,
+      "num_candidates": 78,
+      "num_jobs": 2082,
+      "evaluation_type": "sparse judged gold evaluation",
+      "mean_latency_ms": 21.82891538458511,
+      "median_latency_ms": 19.801600000391772,
+      "p95_latency_ms": 34.791634999555754
+    },
+    {
+      "method": "RRF",
+      "hit@5": 0.02564102564102564,
+      "hit@10": 0.08974358974358974,
+      "mrr": 0.04545977004351791,
+      "ndcg@5": 0.022912238499884257,
+      "ndcg@10": 0.0389732365426312,
+      "num_candidates": 78,
+      "num_jobs": 2082,
+      "evaluation_type": "sparse judged gold evaluation",
+      "mean_latency_ms": 1.9213230769030185,
+      "median_latency_ms": 1.8380000005890906,
+      "p95_latency_ms": 2.532309999332938
+    },
+    {
+      "method": "XGBoost-LTR",
+      "hit@5": 0.08974358974358974,
+      "hit@10": 0.10256410256410256,
+      "mrr": 0.06659497253839604,
+      "ndcg@5": 0.05956659598045561,
+      "ndcg@10": 0.0632725552922234,
+      "num_candidates": 78,
+      "num_jobs": 2082,
+      "evaluation_type": "sparse judged gold evaluation",
+      "mean_latency_ms": 3019.845720512794,
+      "median_latency_ms": 2816.731549999986,
+      "p95_latency_ms": 5439.089229999126
+    },
+    {
+      "method": "XGBoost-LTR-no-location",
+      "hit@5": 0.10256410256410256,
+      "hit@10": 0.15384615384615385,
+      "mrr": 0.08505455170714041,
+      "ndcg@5": 0.07202543364510862,
+      "ndcg@10": 0.08719194318802821,
+      "num_candidates": 78,
+      "num_jobs": 2082,
+      "evaluation_type": "sparse judged gold evaluation",
+      "mean_latency_ms": 3019.7911076923515,
+      "median_latency_ms": 2816.8211500001235,
+      "p95_latency_ms": 5438.152974999729
+    }
+  ],
+  "compute": {
+    "embedding_dimension": 384,
+    "embedding_memory_mb": 3.05,
+    "ltr_feature_count": 8
+  }
+}
