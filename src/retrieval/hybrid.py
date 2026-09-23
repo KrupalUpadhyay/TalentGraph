@@ -15,23 +15,33 @@ def reciprocal_rank_fusion(
         sum(1 / (k + rank))
     """
 
-    scores = defaultdict(float)
+    scores = defaultdict(
+        float
+    )
+
 
     for ranked_list in ranked_lists:
 
         for rank, job_id in enumerate(
             ranked_list,
-            start=1
+            start=1,
         ):
+
             scores[job_id] += (
-                1.0 / (k + rank)
+                1.0
+                / (
+                    k
+                    + rank
+                )
             )
+
 
     ranked_jobs = sorted(
         scores.items(),
         key=lambda x: x[1],
         reverse=True,
     )
+
 
     return [
         job_id

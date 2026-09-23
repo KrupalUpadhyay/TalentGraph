@@ -209,7 +209,7 @@ into a final ranking score.
 Start the FastAPI server:
 
 ```bash
-uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+uvicorn src.api.main:app --reload
 ```
 
 Health check:
@@ -355,7 +355,7 @@ pip install -r requirements.txt
 Then start the API:
 
 ```bash
-uvicorn src.api.main:app --host 0.0.0.0 --port 8000
+uvicorn src.api.main:app --reload
 ```
 
 Or launch the dashboard:
