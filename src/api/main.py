@@ -1,12 +1,10 @@
 from __future__ import annotations
-
 import json
 import os
 import pickle
 import re
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-
 import faiss
 import joblib
 import numpy as np
@@ -17,9 +15,7 @@ from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
 
 
-# ============================================================
 # CONFIG
-# ============================================================
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -57,9 +53,7 @@ FEATURES = [
 ]
 
 
-# ============================================================
 # APP
-# ============================================================
 
 app = FastAPI(
     title="TalentGraph API",
@@ -68,9 +62,7 @@ app = FastAPI(
 )
 
 
-# ============================================================
 # REQUEST / RESPONSE MODELS
-# ============================================================
 
 class CandidateRequest(BaseModel):
     name: str = "Candidate"
@@ -96,9 +88,7 @@ class CandidateRequest(BaseModel):
     location: str = ""
 
 
-# ============================================================
 # GLOBAL RESOURCES
-# ============================================================
 
 FAISS_INDEX = None
 FAISS_METADATA = None
@@ -119,9 +109,7 @@ RESOURCE_STATUS = {
 }
 
 
-# ============================================================
 # BASIC HELPERS
-# ============================================================
 
 def normalize(value: Any) -> str:
     if value is None:
@@ -207,9 +195,7 @@ def tokens(text: str) -> List[str]:
     return re.findall(r"\w+", normalize(text))
 
 
-# ============================================================
 # DATA LOADING
-# ============================================================
 
 def load_raw_jobs() -> pd.DataFrame:
 
@@ -295,15 +281,12 @@ def build_canonical_job_corpus() -> pd.DataFrame:
         )
 
     # IMPORTANT:
-    #
     # This is the same corpus construction used during retrieval
     # evaluation.
-    #
     # The raw dataset contains 2082 jobs, while the trained dense
     # index contains 2054 jobs.
-    #
     # Therefore we MUST use the train+gold corpus here.
-    #
+    
     jobs = pd.concat(
         [
             train[["job_id", "job_text"]],
@@ -375,9 +358,7 @@ def build_canonical_job_corpus() -> pd.DataFrame:
     return jobs
 
 
-# ============================================================
 # FAISS METADATA
-# ============================================================
 
 def extract_indexed_job_ids(metadata: Any) -> List[str]:
 
@@ -444,9 +425,7 @@ def extract_indexed_job_ids(metadata: Any) -> List[str]:
     )
 
 
-# ============================================================
 # ALIGN CORPUS TO FAISS
-# ============================================================
 
 def align_jobs_to_faiss(
     jobs: pd.DataFrame,
@@ -489,9 +468,8 @@ def align_jobs_to_faiss(
         )
 
     # THIS IS CRITICAL.
-    #
     # FAISS vector i must correspond to JOBS_DF row i.
-    #
+    
     jobs = job_lookup.loc[
         indexed_job_ids
     ].reset_index()
@@ -504,9 +482,7 @@ def align_jobs_to_faiss(
     return jobs
 
 
-# ============================================================
 # BM25
-# ============================================================
 
 def load_or_build_bm25():
 
@@ -526,9 +502,7 @@ def load_or_build_bm25():
     )
 
 
-# ============================================================
 # LTR MODEL
-# ============================================================
 
 def load_ltr_model():
 
@@ -578,9 +552,7 @@ def load_ltr_model():
     print("Loaded trained XGBoost LTR model.")
 
 
-# ============================================================
 # FEATURE FUNCTIONS
-# ============================================================
 
 def get_candidate_skills(row: Dict[str, Any]) -> List[str]:
 
@@ -882,9 +854,7 @@ def location_compatibility(
     return 0.0
 
 
-# ============================================================
 # CANDIDATE TEXT
-# ============================================================
 
 def build_candidate_text(
     candidate: CandidateRequest,
@@ -958,9 +928,7 @@ def build_candidate_text(
     return " | ".join(parts)
 
 
-# ============================================================
 # FEATURE ROW
-# ============================================================
 
 def build_feature_row(
     candidate: CandidateRequest,
@@ -1025,10 +993,7 @@ def build_feature_row(
 
     return row
 
-
-# ============================================================
 # RRF
-# ============================================================
 
 def reciprocal_rank_fusion(
     bm25_scores: np.ndarray,
@@ -1066,13 +1031,9 @@ def reciprocal_rank_fusion(
         key=rrf.get,
         reverse=True,
     )
-
     return ordered
 
-
-# ============================================================
 # SCORE NORMALIZATION FOR UI
-# ============================================================
 
 def sigmoid(x: float) -> float:
 
@@ -1081,14 +1042,12 @@ def sigmoid(x: float) -> float:
         -30,
         30,
     )
-
     return float(
         1.0 / (1.0 + np.exp(-x))
     )
 
 
 def percentage_01(value: float) -> float:
-
     return round(
         float(
             np.clip(value, 0.0, 1.0)
@@ -1102,7 +1061,6 @@ def dense_percentage(value: float) -> float:
 
     # Cosine similarity -> display-only percentage.
     value = float(value)
-
     normalized = (
         (value + 1.0) / 2.0
     )
@@ -1153,10 +1111,7 @@ def bm25_display_percentage(
         1,
     )
 
-
-# ============================================================
 # EXPLANATION
-# ============================================================
 
 def matched_skills(
     candidate: CandidateRequest,
@@ -1242,9 +1197,7 @@ def build_explanation(
     }
 
 
-# ============================================================
 # STARTUP
-# ============================================================
 
 def load_resources():
 
@@ -1263,9 +1216,7 @@ def load_resources():
     print("Loading TalentGraph...")
     print("=" * 70)
 
-    # --------------------------------------------------------
     # FAISS
-    # --------------------------------------------------------
 
     if not FAISS_FILE.exists():
         raise FileNotFoundError(
@@ -1283,9 +1234,7 @@ def load_resources():
         f"{FAISS_INDEX.ntotal} jobs."
     )
 
-    # --------------------------------------------------------
     # Metadata
-    # --------------------------------------------------------
 
     if not FAISS_METADATA_FILE.exists():
         raise FileNotFoundError(
@@ -1305,17 +1254,13 @@ def load_resources():
         FAISS_METADATA
     )
 
-    # --------------------------------------------------------
     # Canonical corpus
-    # --------------------------------------------------------
 
     canonical_jobs = (
         build_canonical_job_corpus()
     )
 
-    # --------------------------------------------------------
     # CRITICAL ALIGNMENT
-    # --------------------------------------------------------
 
     JOBS_DF = align_jobs_to_faiss(
         canonical_jobs,
@@ -1347,15 +1292,11 @@ def load_resources():
         f"{len(JOBS_DF)} jobs."
     )
 
-    # --------------------------------------------------------
     # BM25
-    # --------------------------------------------------------
 
     load_or_build_bm25()
 
-    # --------------------------------------------------------
     # MiniLM
-    # --------------------------------------------------------
 
     print(
         "Loading MiniLM sentence-transformer..."
@@ -1367,9 +1308,7 @@ def load_resources():
 
     print("MiniLM ready.")
 
-    # --------------------------------------------------------
     # LTR
-    # --------------------------------------------------------
 
     load_ltr_model()
 
@@ -1398,9 +1337,7 @@ def startup_event():
     load_resources()
 
 
-# ============================================================
 # HEALTH
-# ============================================================
 
 @app.get("/health")
 def health():
@@ -1428,9 +1365,7 @@ def root():
     }
 
 
-# ============================================================
 # RECOMMEND
-# ============================================================
 
 @app.post("/recommend")
 def recommend(
@@ -1445,17 +1380,13 @@ def recommend(
 
     try:
 
-        # ----------------------------------------------------
         # Candidate query
-        # ----------------------------------------------------
 
         candidate_text = (
             build_candidate_text(candidate)
         )
 
-        # ----------------------------------------------------
         # BM25
-        # ----------------------------------------------------
 
         query_tokens = tokens(
             candidate_text
@@ -1466,10 +1397,8 @@ def recommend(
             dtype=np.float32,
         )
 
-        # ----------------------------------------------------
         # Dense retrieval
-        # ----------------------------------------------------
-
+        
         query_embedding = (
             DENSE_MODEL.encode(
                 [candidate_text],
@@ -1493,9 +1422,7 @@ def recommend(
         dense_scores = dense_scores[0]
         dense_indices = dense_indices[0]
 
-        # ----------------------------------------------------
         # Hybrid RRF
-        # ----------------------------------------------------
 
         candidate_indices = (
             reciprocal_rank_fusion(
@@ -1528,9 +1455,7 @@ def recommend(
             )
         ]
 
-        # ----------------------------------------------------
         # Dense score lookup
-        # ----------------------------------------------------
 
         dense_score_map = {
             int(idx): float(score)
@@ -1541,10 +1466,8 @@ def recommend(
             if int(idx) >= 0
         }
 
-        # ----------------------------------------------------
         # Build LTR feature matrix
-        # ----------------------------------------------------
-
+        
         feature_rows = []
         metadata_rows = []
 
@@ -1622,9 +1545,7 @@ def recommend(
             dtype=np.float32,
         )
 
-        # ----------------------------------------------------
         # XGBoost LTR inference
-        # ----------------------------------------------------
 
         ranking_scores = (
             LTR_MODEL.predict(X)
@@ -1639,9 +1560,7 @@ def recommend(
             -ranking_scores
         )
 
-        # ----------------------------------------------------
         # Results
-        # ----------------------------------------------------
 
         results = []
 

@@ -1,6 +1,5 @@
 import math
 
-
 def dcg_at_k(relevances, k):
     """
     Discounted cumulative gain.

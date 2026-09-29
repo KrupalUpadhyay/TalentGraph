@@ -10,17 +10,13 @@ on the same explicit schema.
 """
 
 from __future__ import annotations
-
 import json
 from pathlib import Path
 from typing import Any
-
 import pandas as pd
 
 
-# ============================================================
 # Paths
-# ============================================================
 
 ROOT = Path(
     __file__
@@ -34,9 +30,7 @@ RAW_DIR = (
 )
 
 
-# ============================================================
 # Basic conversion helpers
-# ============================================================
 
 def _as_list(
     value: Any,
@@ -71,10 +65,7 @@ def _pipe(
         _as_list(value)
     )
 
-
-# ============================================================
 # Candidate contract
-# ============================================================
 
 def build_candidate_text(
     profile: dict[str, Any],
@@ -254,9 +245,7 @@ def normalize_candidate(
     }
 
 
-# ============================================================
 # Job contract
-# ============================================================
 
 def build_job_text(
     job: dict[str, Any],
@@ -391,9 +380,7 @@ def normalize_job(
     }
 
 
-# ============================================================
 # Raw JSON loading
-# ============================================================
 
 def _load_json(
     name: str,
@@ -421,10 +408,7 @@ def _load_json(
             handle
         )
 
-
-# ============================================================
 # Public loaders
-# ============================================================
 
 def load_candidates() -> pd.DataFrame:
 
@@ -454,9 +438,7 @@ def load_jobs() -> pd.DataFrame:
     )
 
 
-# ============================================================
 # Complete scoring row
-# ============================================================
 
 def scoring_row(
     candidate: dict[str, Any],

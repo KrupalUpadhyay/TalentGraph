@@ -45,9 +45,7 @@ def main():
         for x in jobs
     }
 
-    # ---------------------------------------------------------
     # GOLD CANDIDATES
-    # ---------------------------------------------------------
 
     gold_candidates = set()
 
@@ -68,10 +66,7 @@ def main():
         except Exception:
             continue
 
-    # ---------------------------------------------------------
     # BUILD TRAINING DATASET
-    # ---------------------------------------------------------
-
     train_rows = []
 
     for row in phase3_labels:
@@ -156,10 +151,8 @@ def main():
 
     train_df = pd.DataFrame(train_rows)
 
-    # ---------------------------------------------------------
     # BUILD GOLD TEST DATASET
-    # ---------------------------------------------------------
-
+   
     gold_rows = []
 
     for row in valid_gold_rows:
@@ -238,9 +231,6 @@ def main():
 
     gold_df = pd.DataFrame(gold_rows)
 
-    # ---------------------------------------------------------
-    # SAVE
-    # ---------------------------------------------------------
 
     train_path = PROCESSED / "train_pairs.parquet"
     gold_path = PROCESSED / "gold_pairs.parquet"

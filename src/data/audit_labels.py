@@ -2,10 +2,8 @@ import json
 from pathlib import Path
 from collections import Counter, defaultdict
 
-
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw" / "role-radar"
-
 
 def load_json(filename):
     with open(RAW / filename, "r", encoding="utf-8") as f:
@@ -65,9 +63,7 @@ def main():
         for x in gold
     }
 
-    # ---------------------------------------------------------
     # PHASE 3 LABEL COVERAGE
-    # ---------------------------------------------------------
 
     print("=" * 70)
     print("PHASE 3 LABEL → PROFILE/JOB COVERAGE")
@@ -111,9 +107,7 @@ def main():
         for x in invalid_phase3[:10]:
             print(x)
 
-    # ---------------------------------------------------------
     # GOLD COVERAGE
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("GOLD SET COVERAGE")
@@ -152,9 +146,7 @@ def main():
     print("Gold jobs:", len(gold_jobs))
     print("Invalid gold mappings:", len(invalid_gold))
 
-    # ---------------------------------------------------------
     # GOLD ↔ PHASE 3
-    # ---------------------------------------------------------
 
     gold_ids = set(gold_map)
     phase3_ids = set(p3_label_map)
@@ -175,9 +167,7 @@ def main():
         for pair_id in sorted(gold_not_in_phase3):
             print(pair_id)
 
-    # ---------------------------------------------------------
     # SCORE AGREEMENT
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("GOLD vs PHASE 3 LABEL SCORE AGREEMENT")
@@ -210,9 +200,7 @@ def main():
         for diff in sorted(hist):
             print(f"{diff:+d}: {hist[diff]}")
 
-    # ---------------------------------------------------------
     # LABEL DISTRIBUTION
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("PHASE 3 LABEL DISTRIBUTION")
@@ -227,9 +215,7 @@ def main():
     print("Min:", min(scores))
     print("Max:", max(scores))
 
-    # ---------------------------------------------------------
     # PROFILE FREQUENCY
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("PROFILE FREQUENCY IN PHASE 3 LABELS")
@@ -252,9 +238,7 @@ def main():
     for profile_id, count in profile_counts.most_common(10):
         print(profile_id, count)
 
-    # ---------------------------------------------------------
     # JOB FREQUENCY
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("JOB FREQUENCY IN PHASE 3 LABELS")
@@ -277,9 +261,7 @@ def main():
     for job_id, count in job_counts.most_common(10):
         print(job_id, count)
 
-    # ---------------------------------------------------------
     # PAIR TYPE → SCORE
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("PHASE 3 PAIR TYPE vs COMPOSITE")
@@ -307,9 +289,7 @@ def main():
             "max =", max(values)
         )
 
-    # ---------------------------------------------------------
     # GOLD SCORE DISTRIBUTION
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("GOLD SCORE DISTRIBUTION")

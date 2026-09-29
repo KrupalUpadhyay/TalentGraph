@@ -2,20 +2,16 @@ import json
 from pathlib import Path
 from collections import Counter
 
-
 ROOT = Path(__file__).resolve().parents[2]
 RAW = ROOT / "data" / "raw" / "role-radar"
-
 
 def load_json(filename):
     with open(RAW / filename, "r", encoding="utf-8") as f:
         return json.load(f)
 
-
 def parse_pair_id(pair_id):
     profile_str, job_id = pair_id.split("_", 1)
     return int(profile_str), job_id
-
 
 def main():
 
@@ -39,9 +35,7 @@ def main():
         for x in gold
     }
 
-    # ---------------------------------------------------------
     # GOLD VALIDITY
-    # ---------------------------------------------------------
 
     print("=" * 70)
     print("GOLD VALIDITY")
@@ -90,10 +84,8 @@ def main():
     for row in invalid_gold:
         print(row)
 
-    # ---------------------------------------------------------
     # GOLD CANDIDATES
-    # ---------------------------------------------------------
-
+    
     gold_profile_ids = set()
 
     for row in valid_gold:
@@ -107,9 +99,7 @@ def main():
     print("Unique valid gold candidates:", len(gold_profile_ids))
     print("Candidate IDs:", sorted(gold_profile_ids))
 
-    # ---------------------------------------------------------
     # VALID PHASE 3 LABELS
-    # ---------------------------------------------------------
 
     valid_phase3 = []
     invalid_phase3 = []
@@ -140,9 +130,7 @@ def main():
     print("Valid mappings:", len(valid_phase3))
     print("Invalid mappings:", len(invalid_phase3))
 
-    # ---------------------------------------------------------
     # REMOVE GOLD CANDIDATES
-    # ---------------------------------------------------------
 
     train_pool = []
     excluded_gold_candidate = []
@@ -164,9 +152,7 @@ def main():
     print("Excluded because candidate is in gold:", len(excluded_gold_candidate))
     print("Remaining training pool:", len(train_pool))
 
-    # ---------------------------------------------------------
     # CHECK GOLD PAIR LEAKAGE
-    # ---------------------------------------------------------
 
     train_ids = {
         x["pair_id"]
@@ -183,9 +169,7 @@ def main():
     print("Training pair IDs:", len(train_ids))
     print("Direct pair leakage:", len(leakage))
 
-    # ---------------------------------------------------------
     # CHECK CANDIDATE LEAKAGE
-    # ---------------------------------------------------------
 
     train_profiles = {
         parse_pair_id(x["pair_id"])[0]
@@ -202,9 +186,7 @@ def main():
     print("Gold candidates:", len(gold_profile_ids))
     print("Candidate leakage:", len(candidate_leakage))
 
-    # ---------------------------------------------------------
     # SCORE DISTRIBUTION
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("TRAINING POOL SCORE DISTRIBUTION")
@@ -231,9 +213,7 @@ def main():
             f"{hist[bucket]}"
         )
 
-    # ---------------------------------------------------------
     # CANDIDATE DISTRIBUTION
-    # ---------------------------------------------------------
 
     print("\n" + "=" * 70)
     print("TRAINING CANDIDATE DISTRIBUTION")

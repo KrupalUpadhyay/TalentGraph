@@ -1,14 +1,10 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from pathlib import Path
-
-
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data" / "processed"
 RESULTS = ROOT / "results"
-
 RESULTS.mkdir(parents=True, exist_ok=True)
-
 
 def main():
 
@@ -19,9 +15,7 @@ def main():
     print("TALENTGRAPH EDA")
     print("=" * 70)
 
-    # ---------------------------------------------------------
     # BASIC DATASET STATISTICS
-    # ---------------------------------------------------------
 
     print("\nTRAINING DATA")
     print("-" * 50)
@@ -37,18 +31,14 @@ def main():
     print("Candidates:", gold["profile_id"].nunique())
     print("Jobs:", gold["job_id"].nunique())
 
-    # ---------------------------------------------------------
     # LABEL DISTRIBUTION
-    # ---------------------------------------------------------
 
     print("\nLABEL DISTRIBUTION")
     print("-" * 50)
 
     print(train["label"].describe())
 
-    # ---------------------------------------------------------
     # PAIRS PER CANDIDATE
-    # ---------------------------------------------------------
 
     candidate_counts = (
         train
@@ -62,9 +52,7 @@ def main():
 
     print(candidate_counts.describe())
 
-    # ---------------------------------------------------------
     # PAIRS PER JOB
-    # ---------------------------------------------------------
 
     job_counts = (
         train
@@ -78,18 +66,14 @@ def main():
 
     print(job_counts.describe())
 
-    # ---------------------------------------------------------
     # GOLD LABEL DISTRIBUTION
-    # ---------------------------------------------------------
 
     print("\nGOLD LABEL DISTRIBUTION")
     print("-" * 50)
 
     print(gold["label"].describe())
 
-    # ---------------------------------------------------------
     # LABEL HISTOGRAM
-    # ---------------------------------------------------------
 
     plt.figure(figsize=(9, 5))
 
@@ -114,9 +98,7 @@ def main():
 
     plt.close()
 
-    # ---------------------------------------------------------
     # PAIRS PER CANDIDATE
-    # ---------------------------------------------------------
 
     plt.figure(figsize=(9, 5))
 
@@ -139,9 +121,7 @@ def main():
 
     plt.close()
 
-    # ---------------------------------------------------------
     # PAIRS PER JOB
-    # ---------------------------------------------------------
 
     plt.figure(figsize=(9, 5))
 
@@ -164,9 +144,7 @@ def main():
 
     plt.close()
 
-    # ---------------------------------------------------------
     # LABEL COMPONENTS
-    # ---------------------------------------------------------
 
     components = [
         "skills_label",
@@ -182,9 +160,7 @@ def main():
         train[components].describe()
     )
 
-    # ---------------------------------------------------------
     # CORRELATION
-    # ---------------------------------------------------------
 
     print("\nLABEL COMPONENT CORRELATION")
     print("-" * 50)
@@ -197,9 +173,7 @@ def main():
         )
     )
 
-    # ---------------------------------------------------------
     # COMPONENT VS COMPOSITE
-    # ---------------------------------------------------------
 
     for component in components:
 
@@ -227,9 +201,7 @@ def main():
 
         plt.close()
 
-    # ---------------------------------------------------------
     # GOLD VS TRAINING DISTRIBUTION
-    # ---------------------------------------------------------
 
     plt.figure(figsize=(9, 5))
 
